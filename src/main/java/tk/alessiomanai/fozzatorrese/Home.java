@@ -1,0 +1,185 @@
+package tk.alessiomanai.fozzatorrese;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import tk.alessiomanai.fozzatorrese.callable.ProssimaPartitaCallable;
+import tk.alessiomanai.fozzatorrese.model.ProssimaPartita;
+import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
+import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseUtils;
+
+public class Home extends AppCompatActivity {
+
+    ImageView calendarioButton, classificaButton, liveButton, teamButton;
+    TextView squadraCasa, squadraTrasferta, dataProssimaPartita;
+    ImageView stemmaCasa, stemmaTrasferta;
+    View viewStemmaCasa, viewStemmaTrasferta;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        calendarioButton = findViewById(R.id.bottoneCalendario);
+        classificaButton = findViewById(R.id.bottoneClassifica);
+        teamButton = findViewById(R.id.bottoneSquadra);
+        liveButton = findViewById(R.id.bottoneLive);
+
+        squadraCasa = findViewById(R.id.squadraCasaTextView);
+        squadraTrasferta = findViewById(R.id.squadraTrasfertaTextView);
+        stemmaCasa = findViewById(R.id.stemmaCasa);
+        stemmaTrasferta = findViewById(R.id.stemmaTrasferta);
+        dataProssimaPartita = findViewById(R.id.dataProssimaPartita);
+        viewStemmaCasa = findViewById(R.id.layoutStemmaCasa);
+        viewStemmaTrasferta = findViewById(R.id.layoutStemmaTrasferta);
+
+
+        MessageQueue.IdleHandler handler = new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                caricaProssimaPartita();
+                return false;
+            }
+        };
+
+        Looper.myQueue().addIdleHandler(handler);
+
+
+        classificaButton.setOnClickListener(arg0 -> {
+            Intent activity = new Intent(getBaseContext(), ClassificaActivity.class);
+            startActivity(activity);
+        });
+
+        liveButton.setOnClickListener(arg0 -> {
+            Intent activity = new Intent(getBaseContext(), LiveActivity.class);
+            startActivity(activity);
+        });
+
+        teamButton.setOnClickListener(arg0 -> {
+            Intent activity = new Intent(getBaseContext(), SquadraActivity.class);
+            startActivity(activity);
+        });
+
+        calendarioButton.setOnClickListener(arg0 -> {
+            Intent activity = new Intent(getBaseContext(), CalendarioActivity.class);
+            startActivity(activity);
+        });
+
+
+    }
+
+    private void caricaProssimaPartita(){
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FozzaTorreseConstants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        boolean loghiSfocati = prefs.getBoolean(FozzaTorreseConstants.OFFUSCAMENTO_LOGHI,
+                FozzaTorreseConstants.DEFAULT_VALUE_SETTING_LOGHI);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        Future<ProssimaPartita> process = executor.submit(new ProssimaPartitaCallable());
+
+        ProssimaPartita prossimaPartita = null;
+        try {
+            prossimaPartita = process.get();
+
+            squadraCasa.setText(Objects.nonNull(prossimaPartita.getSquadraCasa()) ?  prossimaPartita.getSquadraCasa() : "");
+            squadraTrasferta.setText(Objects.nonNull(prossimaPartita.getSquadraTrasferta()) ?  prossimaPartita.getSquadraTrasferta() : "");
+            dataProssimaPartita.setText(Objects.nonNull(prossimaPartita.getDataOra()) ?  prossimaPartita.getDataOra() : "");
+
+            if (loghiSfocati) {
+
+                Glide.with(this)
+                        .load(prossimaPartita.getLogoCasa())
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
+                        .into(stemmaCasa);
+
+                Glide.with(this)
+                        .load(prossimaPartita.getLogoTrasferta())
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
+                        .into(stemmaTrasferta);
+
+            } else {
+
+                Glide.with(this)
+                        .load(prossimaPartita.getLogoCasa())
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .into(stemmaCasa);
+
+                Glide.with(this)
+                        .load(prossimaPartita.getLogoTrasferta())
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .into(stemmaTrasferta);
+            }
+
+        } catch (ExecutionException | InterruptedException | NullPointerException e) {
+            e.printStackTrace();
+            FozzaTorreseUtils.noInternet(this);
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.about) {
+
+            Intent activity = new Intent(getBaseContext(), Info.class);
+            startActivity(activity);
+
+            return true;
+        }
+        if (id == R.id.settings) {
+
+            Intent activity = new Intent(getBaseContext(), ImpostazioniActivity.class);
+            startActivity(activity);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+}
