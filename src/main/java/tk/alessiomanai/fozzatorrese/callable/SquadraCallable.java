@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 
 import tk.alessiomanai.fozzatorrese.model.Giocatore;
 import tk.alessiomanai.fozzatorrese.model.Squadra;
+import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 
 public class SquadraCallable implements Callable<Squadra> {
 
@@ -45,7 +46,7 @@ public class SquadraCallable implements Callable<Squadra> {
 
     @Override
     public Squadra call() throws Exception {
-        Document doc = Jsoup.connect("https://www.transfermarkt.it/sef-torres-1903/kader/verein/2253").get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_SQUADRA).get();
         return parseSquadra(doc);
     }
 }

@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.concurrent.Callable;
 
 import tk.alessiomanai.fozzatorrese.model.ProssimaPartita;
+import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 
 public class ProssimaPartitaCallable implements Callable<ProssimaPartita> {
 
@@ -20,8 +21,8 @@ public class ProssimaPartitaCallable implements Callable<ProssimaPartita> {
 
         partita.setSquadraCasa(doc.select("strong").get(0).text());
         partita.setSquadraTrasferta(doc.select("strong").get(1).text());
-        partita.setLogoCasa(doc.select("img").get(2).absUrl("src"));
-        partita.setLogoTrasferta(doc.select("img").get(6).absUrl("src"));
+        partita.setLogoCasa(doc.select("img").get(1).absUrl("src"));
+        partita.setLogoTrasferta(doc.select("img").get(3).absUrl("src"));
 
         String timestamp = doc.getElementsByAttribute("data-end-timestamp").attr("data-end-timestamp");
 
@@ -33,7 +34,7 @@ public class ProssimaPartitaCallable implements Callable<ProssimaPartita> {
 
     @Override
     public ProssimaPartita call() throws Exception {
-        Document doc = Jsoup.connect("https://seftorrescalcio.it/").get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.TORRES_SITE).get();
         return parse(doc);
     }
 }

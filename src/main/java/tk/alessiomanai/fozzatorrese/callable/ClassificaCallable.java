@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 
 import tk.alessiomanai.fozzatorrese.model.Classifica;
 import tk.alessiomanai.fozzatorrese.model.RigaClassifica;
+import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 
 public class ClassificaCallable implements Callable<Classifica> {
 
@@ -62,8 +63,7 @@ public class ClassificaCallable implements Callable<Classifica> {
 
     @Override
     public Classifica call() throws Exception {
-        //Document doc = Jsoup.connect("https://it.wikipedia.org/wiki/Serie_C_2022-2023").get();
-        Document doc = Jsoup.connect("https://www.transfermarkt.it/serie-c-girone-b/tabelle/wettbewerb/IT3B/saison_id/2022").get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_CLASSIFICA).get();
         return parseClassificaTrasfermarkt(doc);
     }
 }

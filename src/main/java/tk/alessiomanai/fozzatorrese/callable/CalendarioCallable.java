@@ -61,7 +61,7 @@ public class CalendarioCallable implements Callable<Calendario> {
 
     @Override
     public Calendario call() throws Exception {
-        Document doc = Jsoup.connect("https://www.transfermarkt.it/sef-torres-1903/spielplandatum/verein/2253").get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_CALENDARIO).get();
         return parse(doc);
     }
 
