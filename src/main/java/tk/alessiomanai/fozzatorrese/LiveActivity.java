@@ -2,6 +2,7 @@ package tk.alessiomanai.fozzatorrese;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Objects;
@@ -20,15 +22,17 @@ import java.util.concurrent.Future;
 import tk.alessiomanai.fozzatorrese.callable.LiveCallable;
 import tk.alessiomanai.fozzatorrese.callable.live.FormazioneLiveCallable;
 import tk.alessiomanai.fozzatorrese.callable.live.PunteggioLiveCallable;
+import tk.alessiomanai.fozzatorrese.listatore.ListatoreCronaca;
 import tk.alessiomanai.fozzatorrese.model.Partita;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseUtils;
 
 public class LiveActivity extends AppCompatActivity {
 
-    TextView squadraCasa, squadraTrasferta, punteggioCasa, punteggioTrasferta,
+    private TextView squadraCasa, squadraTrasferta, punteggioCasa, punteggioTrasferta,
             minutoDiGioco, formazioneCasa, formazioneTrasferta, marcatori;
-    Partita partitaLive, formazioneLive, punteggioLive;
+    private Partita partitaLive, formazioneLive, punteggioLive;
+    private ListView listviewCronaca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class LiveActivity extends AppCompatActivity {
         formazioneCasa = findViewById(R.id.formazioneHomeLive);
         formazioneTrasferta = findViewById(R.id.formazioneAwayLive);
         marcatori = findViewById(R.id.marcatoriLive);
+        listviewCronaca = findViewById(R.id.cronacaList);
 
         caricaPartita();
 
@@ -73,6 +78,10 @@ public class LiveActivity extends AppCompatActivity {
                     formazioneCasa.setText(partitaLive.getFormazioneCasa());
                     formazioneTrasferta.setText(partitaLive.getFormazioneTrasferta());
                     marcatori.setText(partitaLive.getMarcatori());
+
+                    ListatoreCronaca listatoreCronaca = new ListatoreCronaca(LiveActivity.this, partitaLive.getCronaca());
+                    listviewCronaca.setAdapter(listatoreCronaca);
+
                 } else {
                     FozzaTorreseUtils.noLive(LiveActivity.this);
                 }

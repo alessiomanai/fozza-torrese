@@ -1,5 +1,7 @@
 package tk.alessiomanai.fozzatorrese.model;
 
+import java.util.List;
+
 public class Partita {
 
     private String squadraCasa;
@@ -13,6 +15,8 @@ public class Partita {
     private String marcatori;
     private String logoCasa;
     private String logoTrasferta;
+
+    private List<String> cronaca;
 
     public String getSquadraCasa() {
         return squadraCasa;
@@ -100,5 +104,13 @@ public class Partita {
 
     public void setLogoTrasferta(String logoTrasferta) {
         this.logoTrasferta = logoTrasferta;
+    }
+
+    public List<String> getCronaca() {
+        return cronaca;
+    }
+
+    public void setCronaca(List<String> cronaca) {
+        this.cronaca = cronaca;
     }
 }

@@ -1,21 +1,27 @@
 package tk.alessiomanai.fozzatorrese.callable;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import tk.alessiomanai.fozzatorrese.model.Partita;
+import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 
 public class LiveCallable implements Callable<Partita> {
 
     private Partita parseFromCentotrentuno() throws Exception {
 
         Partita partita = new Partita();
+        List<String> cronaca = new ArrayList<>();
 
-        Document doc = Jsoup.connect("https://www.centotrentuno.com/tag/calcio-torres-sassari/").get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.LIVE_SITE).get();
         Element article = doc.select("article").get(0);
         Element link = article.select("a").get(0);
         String absHref = link.attr("abs:href");
@@ -38,6 +44,16 @@ public class LiveCallable implements Callable<Partita> {
             partita.setFormazioneCasa(formazioni.get(0).text());
             partita.setFormazioneTrasferta(formazioni.get(1).text());
             partita.setMarcatori(marcatori);
+
+            //estrazione cronaca live
+            Element divCronaca = livePage.getElementsByClass("entry-content").get(0);
+            Elements righeCronaca = divCronaca.select("p");
+
+            for (Element p : righeCronaca) {
+                cronaca.add(p.text());
+            }
+
+            partita.setCronaca(cronaca);
 
             return partita;
         }

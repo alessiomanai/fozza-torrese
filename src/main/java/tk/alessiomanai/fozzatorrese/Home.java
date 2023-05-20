@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +27,7 @@ import java.util.concurrent.Future;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import tk.alessiomanai.fozzatorrese.callable.ProssimaPartitaCallable;
+import tk.alessiomanai.fozzatorrese.model.Partita;
 import tk.alessiomanai.fozzatorrese.model.ProssimaPartita;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseUtils;
@@ -35,7 +37,7 @@ public class Home extends AppCompatActivity {
     ImageView calendarioButton, classificaButton, liveButton, teamButton;
     TextView squadraCasa, squadraTrasferta, dataProssimaPartita;
     ImageView stemmaCasa, stemmaTrasferta;
-    View viewStemmaCasa, viewStemmaTrasferta;
+    View viewStemmaCasa, viewStemmaTrasferta, viewProssimaPartita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,9 @@ public class Home extends AppCompatActivity {
         dataProssimaPartita = findViewById(R.id.dataProssimaPartita);
         viewStemmaCasa = findViewById(R.id.layoutStemmaCasa);
         viewStemmaTrasferta = findViewById(R.id.layoutStemmaTrasferta);
+        viewProssimaPartita = findViewById(R.id.prossimaPartitaLayout);
 
+        viewProssimaPartita.setVisibility(View.GONE);
 
         MessageQueue.IdleHandler handler = new MessageQueue.IdleHandler() {
             @Override
@@ -92,10 +96,6 @@ public class Home extends AppCompatActivity {
 
     private void caricaProssimaPartita(){
 
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FozzaTorreseConstants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        boolean loghiSfocati = prefs.getBoolean(FozzaTorreseConstants.OFFUSCAMENTO_LOGHI,
-                FozzaTorreseConstants.DEFAULT_VALUE_SETTING_LOGHI);
-
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<ProssimaPartita> process = executor.submit(new ProssimaPartitaCallable());
 
@@ -103,54 +103,65 @@ public class Home extends AppCompatActivity {
         try {
             prossimaPartita = process.get();
 
-            squadraCasa.setText(Objects.nonNull(prossimaPartita.getSquadraCasa()) ?  prossimaPartita.getSquadraCasa() : "");
-            squadraTrasferta.setText(Objects.nonNull(prossimaPartita.getSquadraTrasferta()) ?  prossimaPartita.getSquadraTrasferta() : "");
-            dataProssimaPartita.setText(Objects.nonNull(prossimaPartita.getDataOra()) ?  prossimaPartita.getDataOra() : "");
-
-            if (loghiSfocati) {
-
-                Glide.with(this)
-                        .load(prossimaPartita.getLogoCasa())
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .skipMemoryCache(true)
-                        .dontAnimate()
-                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
-                        .into(stemmaCasa);
-
-                Glide.with(this)
-                        .load(prossimaPartita.getLogoTrasferta())
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .skipMemoryCache(true)
-                        .dontAnimate()
-                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
-                        .into(stemmaTrasferta);
-
-            } else {
-
-                Glide.with(this)
-                        .load(prossimaPartita.getLogoCasa())
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .skipMemoryCache(true)
-                        .dontAnimate()
-                        .into(stemmaCasa);
-
-                Glide.with(this)
-                        .load(prossimaPartita.getLogoTrasferta())
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .skipMemoryCache(true)
-                        .dontAnimate()
-                        .into(stemmaTrasferta);
+            if (Objects.nonNull(prossimaPartita) && prossimaPartita.getData().compareTo(new Date()) > 0){
+                viewProssimaPartita.setVisibility(View.VISIBLE);
+                setDettagliProssimaPartita(prossimaPartita);
             }
 
         } catch (ExecutionException | InterruptedException | NullPointerException e) {
             e.printStackTrace();
-            FozzaTorreseUtils.noInternet(this);
         }
 
+    }
+
+    private void setDettagliProssimaPartita(ProssimaPartita prossimaPartita){
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FozzaTorreseConstants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        boolean loghiSfocati = prefs.getBoolean(FozzaTorreseConstants.OFFUSCAMENTO_LOGHI,
+                FozzaTorreseConstants.DEFAULT_VALUE_SETTING_LOGHI);
+
+        squadraCasa.setText(Objects.nonNull(prossimaPartita.getSquadraCasa()) ? prossimaPartita.getSquadraCasa() : "");
+        squadraTrasferta.setText(Objects.nonNull(prossimaPartita.getSquadraTrasferta()) ? prossimaPartita.getSquadraTrasferta() : "");
+        dataProssimaPartita.setText(Objects.nonNull(prossimaPartita.getDataOra()) ? prossimaPartita.getDataOra() : "");
+
+        if (loghiSfocati) {
+
+            Glide.with(this)
+                    .load(prossimaPartita.getLogoCasa())
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
+                    .into(stemmaCasa);
+
+            Glide.with(this)
+                    .load(prossimaPartita.getLogoTrasferta())
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
+                    .into(stemmaTrasferta);
+
+        } else {
+
+            Glide.with(this)
+                    .load(prossimaPartita.getLogoCasa())
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .into(stemmaCasa);
+
+            Glide.with(this)
+                    .load(prossimaPartita.getLogoTrasferta())
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .into(stemmaTrasferta);
+        }
     }
 
     @Override

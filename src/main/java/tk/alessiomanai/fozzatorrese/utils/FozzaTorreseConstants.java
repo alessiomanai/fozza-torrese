@@ -31,4 +31,5 @@ public class FozzaTorreseConstants {
     public static final String TM_SQUADRA = "https://www.transfermarkt.it/sef-torres-1903/kader/verein/2253";
     public static final String TM_CLASSIFICA = "https://www.transfermarkt.it/serie-c-girone-b/tabelle/wettbewerb/IT3B/saison_id/2022";
     public static final String TORRES_SITE = "https://seftorrescalcio.it/";
+    public static final String LIVE_SITE = "https://www.centotrentuno.com/tag/calcio-torres-sassari/";
 }

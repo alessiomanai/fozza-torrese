@@ -1,13 +1,12 @@
 package tk.alessiomanai.fozzatorrese.callable;
 
-import android.util.Log;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import tk.alessiomanai.fozzatorrese.model.ProssimaPartita;
@@ -26,10 +25,17 @@ public class ProssimaPartitaCallable implements Callable<ProssimaPartita> {
 
         String timestamp = doc.getElementsByAttribute("data-end-timestamp").attr("data-end-timestamp");
 
-        Date data = new Date(Long.parseLong(timestamp)*1000);
-        partita.setDataOra(new SimpleDateFormat("EEEE dd MMMM HH:mm", Locale.ITALIAN).format(data));
+        if (!timestamp.equals("")) {
 
-        return partita;
+            Date data = new Date(Long.parseLong(timestamp) * 1000);
+            partita.setData(data);
+            partita.setDataOra(new SimpleDateFormat("EEEE dd MMMM HH:mm", Locale.ITALIAN).format(data));
+
+            return partita;
+
+        } else {
+            return null;
+        }
     }
 
     @Override
