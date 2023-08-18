@@ -27,14 +27,12 @@ import java.util.concurrent.Future;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import tk.alessiomanai.fozzatorrese.callable.ProssimaPartitaCallable;
-import tk.alessiomanai.fozzatorrese.model.Partita;
 import tk.alessiomanai.fozzatorrese.model.ProssimaPartita;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
-import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseUtils;
 
 public class Home extends AppCompatActivity {
 
-    ImageView calendarioButton, classificaButton, liveButton, teamButton;
+    ImageView calendarioButton, classificaButton, liveButton, teamButton, newsButton;
     TextView squadraCasa, squadraTrasferta, dataProssimaPartita;
     ImageView stemmaCasa, stemmaTrasferta;
     View viewStemmaCasa, viewStemmaTrasferta, viewProssimaPartita;
@@ -48,6 +46,7 @@ public class Home extends AppCompatActivity {
         classificaButton = findViewById(R.id.bottoneClassifica);
         teamButton = findViewById(R.id.bottoneSquadra);
         liveButton = findViewById(R.id.bottoneLive);
+        newsButton = findViewById(R.id.bottoneNews);
 
         squadraCasa = findViewById(R.id.squadraCasaTextView);
         squadraTrasferta = findViewById(R.id.squadraTrasfertaTextView);
@@ -91,6 +90,10 @@ public class Home extends AppCompatActivity {
             startActivity(activity);
         });
 
+        newsButton.setOnClickListener(arg0 -> {
+            Intent activity = new Intent(getBaseContext(), NewsActivity.class);
+            startActivity(activity);
+        });
 
     }
 

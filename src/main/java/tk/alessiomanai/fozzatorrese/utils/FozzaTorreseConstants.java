@@ -20,16 +20,22 @@ public class FozzaTorreseConstants {
 
     public static final String DETTAGLIO_GIOCATORE = "dettaglioGiocatore";
 
+    public static final String NEWS = "news";
+
     public static final String TORRES_CASA = "Torres - ";
     public static final String TORRES_TRASFERTA = " - Torres";
 
     //URLS
     public static final String TM_LIVE = "https://www.transfermarkt.it/spielbericht/index/spielbericht/";
     public static final String TM_TICKER = "https://www.transfermarkt.it/ticker/begegnung/live/";
-    public static final String TM_SERIEC = "https://www.transfermarkt.it/serie-c-girone-b/startseite/wettbewerb/IT3B/saison_id/2022";
+    public static final String TM_SERIEC = "https://www.transfermarkt.it/serie-c-girone-b/startseite/wettbewerb/IT3B/saison_id/2023";
     public static final String TM_CALENDARIO = "https://www.transfermarkt.it/sef-torres-1903/spielplandatum/verein/2253";
     public static final String TM_SQUADRA = "https://www.transfermarkt.it/sef-torres-1903/kader/verein/2253";
-    public static final String TM_CLASSIFICA = "https://www.transfermarkt.it/serie-c-girone-b/tabelle/wettbewerb/IT3B/saison_id/2022";
+    public static final String TM_CLASSIFICA = "https://www.transfermarkt.it/serie-c-girone-b/tabelle/wettbewerb/IT3B/saison_id/2023";
     public static final String TORRES_SITE = "https://seftorrescalcio.it/";
     public static final String LIVE_SITE = "https://www.centotrentuno.com/tag/calcio-torres-sassari/";
+
+    public static final String TORRES_SITE_STORIA = "storia/";
+
+    public static final String TORRES_SITE_NEWS = "news-e-comunicati/";
 }
