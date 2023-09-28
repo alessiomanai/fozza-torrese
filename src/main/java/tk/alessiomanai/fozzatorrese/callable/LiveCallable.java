@@ -53,6 +53,8 @@ public class LiveCallable implements Callable<Partita> {
                 cronaca.add(p.text());
             }
 
+            cronaca.subList(0, 3).clear();
+
             partita.setCronaca(cronaca);
 
             return partita;

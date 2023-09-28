@@ -29,6 +29,8 @@ public class FozzaTorreseConstants {
     public static final String TM_LIVE = "https://www.transfermarkt.it/spielbericht/index/spielbericht/";
     public static final String TM_TICKER = "https://www.transfermarkt.it/ticker/begegnung/live/";
     public static final String TM_SERIEC = "https://www.transfermarkt.it/serie-c-girone-b/startseite/wettbewerb/IT3B/saison_id/2023";
+
+    public static final String TM_SERIEC_GIORNATA = "https://www.transfermarkt.it/serie-c-girone-b/startseite/wettbewerb/IT3B";
     public static final String TM_CALENDARIO = "https://www.transfermarkt.it/sef-torres-1903/spielplandatum/verein/2253";
     public static final String TM_SQUADRA = "https://www.transfermarkt.it/sef-torres-1903/kader/verein/2253";
     public static final String TM_CLASSIFICA = "https://www.transfermarkt.it/serie-c-girone-b/tabelle/wettbewerb/IT3B/saison_id/2023";

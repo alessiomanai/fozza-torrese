@@ -32,7 +32,7 @@ import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 
 public class Home extends AppCompatActivity {
 
-    ImageView calendarioButton, classificaButton, liveButton, teamButton, newsButton;
+    ImageView calendarioButton, classificaButton, liveButton, teamButton, newsButton, giornataButton;
     TextView squadraCasa, squadraTrasferta, dataProssimaPartita;
     ImageView stemmaCasa, stemmaTrasferta;
     View viewStemmaCasa, viewStemmaTrasferta, viewProssimaPartita;
@@ -47,6 +47,7 @@ public class Home extends AppCompatActivity {
         teamButton = findViewById(R.id.bottoneSquadra);
         liveButton = findViewById(R.id.bottoneLive);
         newsButton = findViewById(R.id.bottoneNews);
+        giornataButton = findViewById(R.id.giornataButton);
 
         squadraCasa = findViewById(R.id.squadraCasaTextView);
         squadraTrasferta = findViewById(R.id.squadraTrasfertaTextView);
@@ -95,6 +96,10 @@ public class Home extends AppCompatActivity {
             startActivity(activity);
         });
 
+        giornataButton.setOnClickListener(arg0 -> {
+            Intent activity = new Intent(getBaseContext(), GiornataAttualeActivity.class);
+            startActivity(activity);
+        });
     }
 
     private void caricaProssimaPartita(){
