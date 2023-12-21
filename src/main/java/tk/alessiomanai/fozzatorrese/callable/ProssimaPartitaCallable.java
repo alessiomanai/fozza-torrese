@@ -18,8 +18,8 @@ public class ProssimaPartitaCallable implements Callable<ProssimaPartita> {
 
         ProssimaPartita partita = new ProssimaPartita();
 
-        partita.setSquadraCasa(doc.select("strong").get(0).text());
-        partita.setSquadraTrasferta(doc.select("strong").get(1).text());
+        partita.setSquadraCasa(doc.select("h3").get(0).text());
+        partita.setSquadraTrasferta(doc.select("h3").get(1).text());
         partita.setLogoCasa(doc.select("img").get(1).absUrl("src"));
         partita.setLogoTrasferta(doc.select("img").get(3).absUrl("src"));
 
