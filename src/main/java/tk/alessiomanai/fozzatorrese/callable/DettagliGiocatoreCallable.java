@@ -58,8 +58,8 @@ public class DettagliGiocatoreCallable implements Callable<Giocatore>  {
             }
         }
 
-        Element valoreMercatoElement = doc.getElementsByClass("tm-player-market-value-development__current-value").get(0);
-        dettaglioGiocatore.setValoreDiMercato(valoreMercatoElement.text());
+//        Element valoreMercatoElement = doc.getElementsByClass("current-value").get(0);
+//        dettaglioGiocatore.setValoreDiMercato(valoreMercatoElement.text());
 
         return dettaglioGiocatore;
     }

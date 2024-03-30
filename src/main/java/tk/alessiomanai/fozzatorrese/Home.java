@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import tk.alessiomanai.fozzatorrese.callable.ProssimaPartitaCallable;
@@ -104,13 +105,12 @@ public class Home extends AppCompatActivity {
 
     private void caricaProssimaPartita(){
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<ProssimaPartita> process = executor.submit(new ProssimaPartitaCallable());
 
         ProssimaPartita prossimaPartita = null;
         try {
             prossimaPartita = process.get();
-
             if (Objects.nonNull(prossimaPartita) && prossimaPartita.getData().compareTo(new Date()) > 0){
                 viewProssimaPartita.setVisibility(View.VISIBLE);
                 setDettagliProssimaPartita(prossimaPartita);
