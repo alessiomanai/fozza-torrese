@@ -3,7 +3,7 @@
 Applicazione per Android dedicata alla squadra di calcio della città di Sassari. È possibile seguire il risultato in tempo reale delle partite, la classifica del campionato di serie C girone B, il calendario delle partite e la rosa aggiornata con tanto di situazione su infortuni e squalifiche. 
 
     Fozza Torrese
-    Copyright (C) 2022-2023  Alessio Manai
+    Copyright (C) 2022-2024  Alessio Manai
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
