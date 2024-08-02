@@ -5,10 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.Calendar;
 
 public class FozzaTorreseUtils {
 
@@ -73,5 +74,14 @@ public class FozzaTorreseUtils {
         }
 
         return righePartite.get(partitaTarget);
+    }
+
+    public static String getSaisonId(){
+        Integer year = Calendar.getInstance().get(Calendar.YEAR);
+
+        if (Calendar.getInstance().get(Calendar.MONTH) > 7) {
+            return year.toString();
+        }
+        return (--year).toString();
     }
 }

@@ -20,7 +20,7 @@ public class FormazioneLiveCallable implements Callable<Partita> {
         Partita partita = new Partita();
         StringBuilder marcatori = new StringBuilder();
 
-        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_SERIEC).get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_SERIEC + FozzaTorreseUtils.getSaisonId()).get();
 
         Element riga = FozzaTorreseUtils.getRigaPartita(doc);
 

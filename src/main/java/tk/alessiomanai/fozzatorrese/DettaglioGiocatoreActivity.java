@@ -22,7 +22,6 @@ import tk.alessiomanai.fozzatorrese.callable.DettagliGiocatoreCallable;
 import tk.alessiomanai.fozzatorrese.callable.SquadraCallable;
 import tk.alessiomanai.fozzatorrese.model.DettaglioGiocatore;
 import tk.alessiomanai.fozzatorrese.model.Giocatore;
-import tk.alessiomanai.fozzatorrese.model.Squadra;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseConstants;
 import tk.alessiomanai.fozzatorrese.utils.FozzaTorreseUtils;
 
@@ -30,7 +29,7 @@ public class DettaglioGiocatoreActivity extends AppCompatActivity {
 
     private ImageView fotoGiocatore;
     private TextView nomeGiocatore;
-    private TextView dataNascita, luogoNascita, eta, altezza, nazionalita,
+    private TextView dataNascita, luogoNascita, altezza, nazionalita,
             posizione, piede, inRosaDal, scadenzaContratto, valoreMercato, indisponibilitaText;
     private View indisponibilitaView;
     private Giocatore giocatore;
@@ -46,7 +45,6 @@ public class DettaglioGiocatoreActivity extends AppCompatActivity {
         indisponibilitaView = findViewById(R.id.indisponibilitaView);
         dataNascita = findViewById(R.id.dataNascitaDettaglio);
         luogoNascita = findViewById(R.id.luogoNascitaDettaglio);
-        eta = findViewById(R.id.etaDettaglio);
         altezza = findViewById(R.id.altezzaDettaglio);
         nazionalita = findViewById(R.id.nazionalitaDettaglio);
         posizione = findViewById(R.id.posizioneDettaglio);
@@ -111,7 +109,6 @@ public class DettaglioGiocatoreActivity extends AppCompatActivity {
 
         dataNascita.setText(dettaglioGiocatore.getDataNascita());
         luogoNascita.setText(dettaglioGiocatore.getLuogoNascita());
-        eta.setText(dettaglioGiocatore.getEta());
         altezza.setText(dettaglioGiocatore.getAltezza());
         nazionalita.setText(dettaglioGiocatore.getNazionalita());
         posizione.setText(dettaglioGiocatore.getPosizione());

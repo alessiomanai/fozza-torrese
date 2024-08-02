@@ -16,7 +16,7 @@ public class PunteggioLiveCallable implements Callable<Partita> {
 
         Partita partita = new Partita();
 
-        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_SERIEC).get();
+        Document doc = Jsoup.connect(FozzaTorreseConstants.TM_SERIEC + FozzaTorreseUtils.getSaisonId()).get();
 
         Element riga = FozzaTorreseUtils.getRigaPartita(doc);
 
