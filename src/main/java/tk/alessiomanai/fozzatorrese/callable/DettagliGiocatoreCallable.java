@@ -31,7 +31,7 @@ public class DettagliGiocatoreCallable implements Callable<Giocatore>  {
             dettaglioGiocatore.setCausaAssenza(doc.getElementsByClass("verletzungsbox").get(0).text());
         }
 
-        Element tableDettagli = doc.getElementsByClass("large-6 large-pull-6 small-12 columns spielerdatenundfakten").get(0);
+        Element tableDettagli = doc.getElementsByClass("spielerdatenundfakten").get(0);
         Elements nomeDettagli = tableDettagli.getElementsByClass("info-table__content info-table__content--regular");
         Elements dettagli = tableDettagli.getElementsByClass("info-table__content info-table__content--bold");
 
