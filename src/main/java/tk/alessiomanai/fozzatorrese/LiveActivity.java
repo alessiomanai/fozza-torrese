@@ -1,6 +1,9 @@
 package tk.alessiomanai.fozzatorrese;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +13,7 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,6 +42,17 @@ public class LiveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
+
+        View root = findViewById(R.id.layoutLive);
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                int top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                v.setPadding(0, top, 0, 0);
+                return insets;
+            }
+        });
 
         squadraCasa = findViewById(R.id.squadraHomeLive);
         squadraTrasferta = findViewById(R.id.squadraAwayLive);

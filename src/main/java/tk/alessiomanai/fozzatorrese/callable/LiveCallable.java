@@ -29,32 +29,31 @@ public class LiveCallable implements Callable<Partita> {
         if(absHref.contains("live")) {
 
             Document livePage = Jsoup.connect(absHref).get();
-            Elements results = livePage.getElementsByClass("result");
-            Elements teams = livePage.getElementsByClass("tbteam");
-            String time = livePage.getElementsByClass("overlay").get(0).text();
-            Elements formazioni = livePage.getElementsByClass("tab-live");
+            Elements results = livePage.getElementsByClass("score");
+            Elements teams = livePage.getElementsByClass("team-name");
 
-            String marcatori = livePage.select("p").get(0).text();
+            Elements formazioni = livePage.getElementsByClass("comment-text timeline-box");
 
-            partita.setTempo(time);
-            partita.setSquadraCasaPunteggio(results.get(0).text());
-            partita.setSquadraTrasfertaPunteggio(results.get(1).text());
+            String marcatori = livePage.getElementsByClass("scorers-title").get(0).text();
+
+            partita.setSquadraCasaPunteggio(results.text().split("-")[0]);
+            partita.setSquadraTrasfertaPunteggio(results.text().split("-")[1]);
             partita.setSquadraTrasferta(teams.get(1).text());
             partita.setSquadraCasa(teams.get(0).text());
-            partita.setFormazioneCasa(formazioni.get(0).text());
-            partita.setFormazioneTrasferta(formazioni.get(1).text());
+            partita.setFormazioneCasa(formazioni.get(formazioni.size()-1).text());
+            partita.setFormazioneTrasferta(formazioni.get(formazioni.size()-2).text());
             partita.setMarcatori(marcatori);
 
             //estrazione cronaca live
             Element divCronaca = livePage.getElementsByClass("entry-content").get(0);
-            Elements righeCronaca = divCronaca.select("p");
+            Elements righeCronaca = divCronaca.getElementsByClass("comment-live");
 
             for (Element p : righeCronaca) {
                 cronaca.add(p.text());
             }
 
-            cronaca.subList(0, 3).clear();
-
+            String time = cronaca.get(0).substring(0, 3);
+            partita.setTempo(time);
             partita.setCronaca(cronaca);
 
             return partita;

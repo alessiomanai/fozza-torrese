@@ -1,6 +1,9 @@
 package tk.alessiomanai.fozzatorrese;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import android.os.Bundle;
 import android.os.Looper;
@@ -29,6 +32,17 @@ public class GiornataAttualeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giornata_attuale);
+
+        View root = findViewById(R.id.layoutGiornataAttuale);
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                int top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                v.setPadding(0, top, 0, 0);
+                return insets;
+            }
+        });
 
         list = findViewById(R.id.listViewGiornata);
         numeroGiornata = findViewById(R.id.numeroGiornata);
